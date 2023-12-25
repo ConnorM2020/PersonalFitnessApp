@@ -4,26 +4,30 @@
 <html lang="en">
 <body>
     <header>
-       <header>
-        <h1>Welcome to the Fitness Tracker{{ ', ' + username if username else '' }}</h1>
+        <h1>Welcome to the Fitness Tracker</h1>
     </header>
-    <!-- Your existing navigation and sections -->
-    <footer class="container">
-        <p>© 2023 Fitness Tracker.</p>
-    </footer>
-</body>
-</html>
     <nav>
+        <a href = "#createworkout">Create Workout</a>
         <a href="#workouts">Workouts</a>
         <a href="#nutrition">Nutrition</a>
         <a href="#progress">Progress</a>
     </nav>
-
     <div class="container">
-        <!-- Workouts Section -->
+        <section id="createworkout" class="card">
+            <h2>Create a Workout Plan</h2>
+            <input type="text" id="searchInput">
+                <!-- The list items will be added by the JavaScript function -->
+                <button onclick="addExercise();">Add Exercise</button>
+        </section>
+    </div>
+    <div class="container">
         <section id="workouts" class="card">
             <h2>Today's Workouts</h2>
-            <p>Details about today's workouts...</p>
+            <ul id="workoutsList">
+                <!-- The list items will be added by the JavaScript function -->
+            </ul>
+        </section>
+            
         </section>
 
         <!-- Nutrition Section -->
@@ -43,13 +47,55 @@
     <footer class="container">
         <p>© 2023 Fitness Tracker.</p>
     </footer>
+<script>
+function getWorkouts() {
+    // Dummy data for example
+    var workouts = [
+            "Pushups",
+            "Squats",
+            "Running"
+        ];
+        // Assuming you have an element with id 'workoutsList'
+        var workoutsListElement = document.getElementById('workoutsList');
+        workoutsListElement.innerHTML = ''; // Clear existing list
+        workouts.forEach(function(workout) {
+        workoutsListElement.innerHTML += '<li>' + workout + '</li>';
+        });
+        }
+        // Call getWorkouts on page load
+        window.onload = getWorkouts;
+
+function searchWorkouts() {
+    var input, filter, ul, li, a, i, txtValue;
+    input = document.getElementById('searchInput');
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("workoutsList");
+    li = ul.getElementsByTagName('li');
+
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < li.length; i++) {
+        a = li[i].textContent || li[i].innerText;
+        if (a.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
+
+</script>
+
 </body>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fitness Tracker</title>
     <style>
-        /* Add some basic styling */
+/* #sem
+{
+    text-align: left;
+    margin-top: 1em;
+} */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -83,8 +129,20 @@
             margin: 0 15px;
             text-decoration: none;
         }
+
     </style>
 </head>
 
+<!-- 
+<div id="sem">
+    <div id="logo">
+        Fitness Tracker
+    </div>
+    <div id="input-div-1"></div>
 
-</html>
+    <div>
+        <input class="display-item" type="text" id="item_1" name="item_1" value="Workouts" readonly>
+     
+    </div>
+
+</html> -->
