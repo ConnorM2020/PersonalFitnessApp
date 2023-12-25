@@ -12,59 +12,59 @@
         <a href="#nutrition">Nutrition</a>
         <a href="#progress">Progress</a>
     </nav>
+
+    <section id="profile" class="card">
+        <h2>UserProfile</h2>
+        <p>Name: <span id="user-name-display">{{ username }}</span></p>
+        
+    </section>
     <div class="container">
         <section id="createworkout" class="card">
             <h2>Create a Workout Plan</h2>
-            <input type="text" id="searchInput">
+            <input type="text" id="newExerciseInput" placeholder="Type new exercise here">
                 <!-- The list items will be added by the JavaScript function -->
-                <button onclick="addExercise();">Add Exercise</button>
+                <button type="button" onclick="addExercise(event);">Add Exercise</button>
+                <ul id="exerciseList"></ul>
         </section>
     </div>
     <div class="container">
         <section id="workouts" class="card">
             <h2>Today's Workouts</h2>
+            <button type="button" onclick="getTodaysWorkouts();">Load Today's Workouts</button>
             <ul id="workoutsList">
-                <!-- The list items will be added by the JavaScript function -->
-            </ul>
-        </section>
-            
         </section>
 
         <!-- Nutrition Section -->
         <section id="nutrition" class="card">
             <h2>Daily Nutrition</h2>
             <p>Details about nutritional plans...</p>
+            <button type="button" onclick="getTodaysNutrition();">Load Today's Nutrition</button>
         </section>
 
         <!-- Progress Section -->
         <section id="progress" class="card">
             <h2>Your Progress</h2>
             <p>Details about your fitness progress...</p>
+            <button type="button" onclick="getFitnessProg();">Load Fitness Progress</button>
         </section>
     </div>
 
-    <!-- Add footer -->
+    <!-- FOOTER -->
     <footer class="container">
         <p>© 2023 Fitness Tracker.</p>
+        <p2>Connor Mallon</p2>
     </footer>
+
 <script>
 function getWorkouts() {
     // Dummy data for example
-    var workouts = [
-            "Pushups",
-            "Squats",
-            "Running"
-        ];
-        // Assuming you have an element with id 'workoutsList'
-        var workoutsListElement = document.getElementById('workoutsList');
-        workoutsListElement.innerHTML = ''; // Clear existing list
-        workouts.forEach(function(workout) {
-        workoutsListElement.innerHTML += '<li>' + workout + '</li>';
-        });
-        }
-        // Call getWorkouts on page load
-        window.onload = getWorkouts;
-
+    // Assuming you have an element with id 'workoutsList'
+    var workoutsListElement = document.getElementById('workoutsList');
+    workoutsListElement.innerHTML = ''; // Clear existing list
+    workouts.forEach(function(workout) {
+    workoutsListElement.innerHTML += '<li>' + workout + '</li>';
+    });
+    }
 function searchWorkouts() {
     var input, filter, ul, li, a, i, txtValue;
     input = document.getElementById('searchInput');
@@ -82,9 +82,40 @@ function searchWorkouts() {
         }
     }
 }
+function addExercise() {
+    event.preventDefault();
+    var input = document.getElementById('newExerciseInput');
+    var exerciseName = input.value; // Get the value from the input
+    var list = document.getElementById('exerciseList');
 
+    if (exerciseName.trim() !== '') {
+        var listItem = document.createElement('li'); // Create a new list item
+        listItem.textContent = exerciseName; // Set the text of the list item to the exercise name
+        list.appendChild(listItem); // Add the list item to the list
+    }
+    input.value = ''; 
+}
+function getTodaysWorkouts() {
+    // Clear any previous workout data
+    const workoutsListElement = document.getElementById('workoutsList');
+    workoutsListElement.innerHTML = '';
+    // Fetch today's workouts from the backend
+    fetch('/api/workouts/today')
+        .then(response => response.json())
+        .then(workouts => {
+            // Populate the workouts list with fetched data
+            workouts.forEach(workout => {
+                const listItem = document.createElement('li');
+                listItem.textContent = workout.name; // Replace 'name' with the actual property
+                workoutsListElement.appendChild(listItem);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching workouts:', error);
+            workoutsListElement.innerHTML = '<li>Error loading workouts.</li>';
+        });
+}
 </script>
-
 </body>
 <head>
     <meta charset="UTF-8">

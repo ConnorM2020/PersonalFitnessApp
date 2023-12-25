@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from workouts import get_todays_workouts
+from templates.workouts import get_todays_workouts
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # You should set a secret key for session handling
 
@@ -13,6 +13,11 @@ def login():
         session['username'] = username
         return redirect(url_for('home'))
     return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)  # Remove 'username' from session
+    return redirect(url_for('login'))
 
 @app.route('/')
 def home():
