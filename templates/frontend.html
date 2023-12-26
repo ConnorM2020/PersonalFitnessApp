@@ -30,8 +30,9 @@
     <div class="container">
         <section id="workouts" class="card">
             <h2>Today's Workouts</h2>
-            <button type="button" onclick="getTodaysWorkouts();">Load Today's Workouts</button>
-            <ul id="workoutsList">
+           <button id="loadButton" onclick="loadTodaysWorkouts();">Load Workouts</button>
+           <button id="closeButton" onclick="closeButton();" style="display:none;">Close Workouts</button>
+            <ul id="workoutsList"></ul>
         </section>
 
         <!-- Nutrition Section -->
@@ -95,28 +96,40 @@ function addExercise() {
     }
     input.value = ''; 
 }
-function getTodaysWorkouts() {
-    // Clear any previous workout data
-    const workoutsListElement = document.getElementById('workoutsList');
-    workoutsListElement.innerHTML = '';
-    // Fetch today's workouts from the backend
-    fetch('/api/workouts/today')
-        .then(response => response.json())
-        .then(workouts => {
-            // Populate the workouts list with fetched data
-            workouts.forEach(workout => {
-                const listItem = document.createElement('li');
-                listItem.textContent = workout.name; // Replace 'name' with the actual property
-                workoutsListElement.appendChild(listItem);
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching workouts:', error);
-            workoutsListElement.innerHTML = '<li>Error loading workouts.</li>';
+function loadTodaysWorkouts() {
+    fetch('/api/todays-workouts')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(workouts => {
+        const workoutsListElement = document.getElementById('workoutsList');
+        workoutsListElement.innerHTML = ''; // Clear existing list
+        workouts.forEach(workout => {
+            const listItem = document.createElement('li');
+            listItem.textContent = workout;
+            workoutsListElement.appendChild(listItem);
         });
+        document.getElementById('loadButton').style.display = 'none'; // Hide Load button
+        document.getElementById('closeButton').style.display = 'block'; // Show Close button
+    })
+    .catch(error => {
+        console.error('There has been a problem with your fetch operation:', error);
+    });
+}
+function closeButton() {
+    var workoutsListElement  = document.getElementById('workoutsList');
+    workoutsListElement.innerHTML = '';
+
+    document.getElementById('loadButton').style.display = 'block'; // Show Load button
+    document.getElementById('closeButton').style.display = 'none';
 }
 </script>
 </body>
+
+<!--Header Section-->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

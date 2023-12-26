@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from templates.workouts import get_todays_workouts
+from templates.workouts import *
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # You should set a secret key for session handling
+app.secret_key = 'secret_key' 
 
+# here are all the routes taken and posible throughout the application
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -16,7 +17,7 @@ def login():
 
 @app.route('/logout')
 def logout():
-    session.pop('username', None)  # Remove 'username' from session
+   # session.pop('username', None)  # Remove 'username' from session
     return redirect(url_for('login'))
 
 @app.route('/')
@@ -24,9 +25,15 @@ def home():
     if 'username' in session:
         todays_workouts = get_todays_workouts()
         # Pass the username to the template
-        return render_template('frontend.html', username=session['username'], workouts=todays_workouts)
+        return render_template('frontend.html', username=session['username'])
     else:
         return redirect(url_for('login'))
+
+@app.route('/api/todays-workouts')
+def todays_workouts_api():
+    todays_workouts = get_todays_workouts()
+    return jsonify(todays_workouts)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
