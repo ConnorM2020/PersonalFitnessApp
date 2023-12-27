@@ -1,0 +1,133 @@
+<div id="login">
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <body>
+        <header>
+            <h1>User Profile</h1>
+        </header>
+        <nav>
+            <a href = "#changename">Change Name</a>
+            <a href="#changepassword">Change Password</a>
+            <a href="#changeworkouts">Change Workouts</a>
+            <a href="#progress">View Personal Progress</a>
+        </nav>
+<body>
+    <form action="{{ url_for('update_account') }}" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="{{ user.name }}">
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password">
+        
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" value="{{ user.age }}">
+        
+        <!-- Add other form fields as necessary -->
+        
+        <input type="submit" value="Update">
+    </form>
+</body>
+
+
+
+
+<!--Header Section-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Tracker</title>
+    <style>
+        form {
+    max-width: 500px;
+    margin: 2em auto;
+    padding: 2em;
+    background: #fff;
+    border-radius: 4px;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5em;
+    color: #333;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="submit"] {
+    width: 100%;
+    padding: 0.5em;
+    margin-bottom: 1em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* ensures padding doesn't affect overall width */
+}
+
+input[type="submit"] {
+    background: #f80606;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background: #dd0505;
+}
+
+/* Additional styles for navigation links */
+nav a:hover {
+    background-color: #f80606;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    form {
+        width: auto;
+        margin: 1em;
+    }
+
+    nav a {
+        display: block;
+        margin: 0.5em 0;
+    }
+}
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+        }
+        header {
+            background: #f80606;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+        .container {
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+        }
+        nav {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+        }
+
+    </style>
+</head>

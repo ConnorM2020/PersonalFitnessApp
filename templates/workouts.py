@@ -3,7 +3,6 @@ import datetime, random
 
 app = Flask(__name__)
 
-# Dummy data for demonstration purposes
 exercises = ["Pushups", "Squats", "Running", "Pull-ups", "Muscle-ups", "Cardio", "Leg extension", "Stretching", "Chest-Press"]
 
 # Function to create random workouts
@@ -21,7 +20,6 @@ def create_random_workouts():
 
     return workouts
 
-# Generate workouts for the year
 year_workouts = create_random_workouts()
 
 @app.route('/api/todays-workouts')

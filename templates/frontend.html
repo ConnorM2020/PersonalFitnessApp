@@ -11,6 +11,7 @@
         <a href="#workouts">Workouts</a>
         <a href="#nutrition">Nutrition</a>
         <a href="#progress">Progress</a>
+        <a href="#profile" >User Profile</a>
     </nav>
 
     <section id="profile" class="card">
@@ -55,8 +56,8 @@
         <p>© 2023 Fitness Tracker.</p>
         <p2>Connor Mallon</p2>
     </footer>
-
 <script>
+
 function getWorkouts() {
     // Dummy data for example
     // Assuming you have an element with id 'workoutsList'
@@ -135,11 +136,17 @@ function closeButton() {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fitness Tracker</title>
     <style>
-/* #sem
-{
-    text-align: left;
-    margin-top: 1em;
-} */
+
+input[type="submit"]:hover {
+    background: #c00202;
+}
+
+/* Additional styles for navigation links */
+nav a:hover {
+    background-color: #c00202;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
         body {
             font-family: Arial, sans-serif;
             margin: 0;
