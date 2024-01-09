@@ -114,7 +114,7 @@
             event.preventDefault(); // Prevent the default form submit action
             // Get form data
             var formData = new FormData(event.target);
-            fetch('/profile', {
+            fetch('/Profile', {
                 method: 'POST',
                 body: formData,
                 credentials: 'same-origin', // Include cookies in the request
