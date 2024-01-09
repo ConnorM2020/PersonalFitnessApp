@@ -1,97 +1,59 @@
 <div id="login">
-
     <!DOCTYPE html>
-    <html lang="en">
-    <body>
-        <header>
-            <h1>User Profile - Fitness Tracker</h1>
-        </header>
-        <nav>
-            <a href = "#changename">Change Name</a>
-            <a href="#changepassword">Change Password</a>
-            <a href="#changeworkouts">Change Workouts</a>
-            <a href="#progress">View Personal Progress</a>
-        </nav>
-<body>
-    <form action="{{ url_for('update_account') }}" method="post">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name">
-
-        <label for="changepassword">Password:</label>
-        <input type="password" id="changepassword" name="changepassword">
-        
-        <label for="age">Age:</label>
-        <input type="number" id="age" name="age" value="{{ user.age }}">
-        
-        <!-- Add other form fields as necessary -->
-        
-        <input type="submit" value="Update">
-    </form>
-</body>
-
-<!--Header Section-->
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fitness Tracker</title>
+    <title>Fitness Tracker - User Profile</title>
     <style>
         form {
-    max-width: 500px;
-    margin: 2em auto;
-    padding: 2em;
-    background: #fff;
-    border-radius: 4px;
-}
-
-label {
-    display: block;
-    margin-bottom: 0.5em;
-    color: #333;
-}
-
-input[type="text"],
-input[type="password"],
-input[type="number"],
-input[type="submit"] {
-    width: 100%;
-    padding: 0.5em;
-    margin-bottom: 1em;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box; /* ensures padding doesn't affect overall width */
-}
-
-input[type="submit"] {
-    background: #f80606;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-input[type="submit"]:hover {
-    background: #dd0505;
-}
-
-/* Additional styles for navigation links */
-nav a:hover {
-    background-color: #f80606;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    form {
-        width: auto;
-        margin: 1em;
-    }
-
-    nav a {
-        display: block;
-        margin: 0.5em 0;
-    }
-}
+            max-width: 500px;
+            margin: 2em auto;
+            padding: 2em;
+            background: #fff;
+            border-radius: 4px;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5em;
+            color: #333;
+        }
+        input[type="text"],
+        input[type="password"],
+        input[type="number"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 0.5em;
+            margin-bottom: 1em;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box; /* ensures padding doesn't affect overall width */
+        }
+        input[type="submit"] {
+            background: #f80606;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background: #dd0505;
+        }
+        nav a:hover {
+            background-color: #f80606;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        @media (max-width: 768px) {
+            form {
+                width: auto;
+                margin: 1em;
+            }
+            nav a {
+                display: block;
+                margin: 0.5em 0;
+            }
+        }
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -125,6 +87,62 @@ nav a:hover {
             margin: 0 15px;
             text-decoration: none;
         }
-
     </style>
 </head>
+<body>
+    <header>
+        <h1>User Profile - Fitness Tracker</h1>
+    </header>
+    <nav>
+        <a href="#changename">Change Name</a>
+        <a href="#changepassword">Change Password</a>
+        <a href="#changeworkouts">Change Workouts</a>
+        <a href="#progress">View Personal Progress</a>
+    </nav>
+    <form id="profile-form" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name">
+        <label for="changepassword">Password:</label>
+        <input type="password" id="changepassword" name="changepassword">
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" min="0">
+        <!-- Add other form fields as necessary -->
+        <input type="submit" value="Update">
+    </form>
+    <script>
+        document.getElementById('profile-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submit action
+            // Get form data
+            var formData = new FormData(event.target);
+            fetch('/profile', {
+                method: 'POST',
+                body: formData,
+                credentials: 'same-origin', // Include cookies in the request
+                headers: {
+                    'X-CSRFToken': formData.get('csrf_token') // Handle CSRF token
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    alert('Profile updated successfully'); // Or update the UI accordingly
+                } else {
+                    alert('Error updating profile: ' + data.message); // Display error message
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error updating profile: ' + error.message);
+            });
+        });
+    </script>
+    <footer>
+        <p>© 2023 Fitness Tracker. All rights reserved.</p>
+    </footer>
+</body>
+</html>

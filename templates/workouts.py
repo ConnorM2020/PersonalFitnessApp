@@ -7,8 +7,8 @@ exercises = ["Pushups", "Squats", "Running", "Pull-ups", "Muscle-ups", "Cardio",
 
 # Function to create random workouts
 def create_random_workouts():
-    start_date = datetime.date(2023, 1, 1)
-    end_date = datetime.date(2023, 12, 31)
+    start_date = datetime.date(2024, 1, 1)
+    end_date = datetime.date(2024, 12, 31)
     delta = datetime.timedelta(days=1)
 
     workouts = {}
