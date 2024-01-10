@@ -5,7 +5,7 @@ A Personal Project built within HTML and Python.
 The front end and Back end are involved, using JSON to communicate between both ends.</p>
 
 Here is the front-end user page.
-<img src = "screenshot.png">
+<img src = "static/images/screenshot.png">
 
 
 
