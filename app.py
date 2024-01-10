@@ -61,7 +61,6 @@ def save_user_data(user_data):
      with open('users.json', 'w') as file:
         json.dump(user_data, file)
 
-
 def load_user_data():
     try:
         with open('users.json', 'r') as file:
