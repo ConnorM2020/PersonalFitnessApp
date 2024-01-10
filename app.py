@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from templates.workouts import get_todays_workouts, jsonify
+import json # using JSON instead 
 
 app = Flask(__name__)
 app.secret_key = 'secret_key' 
@@ -54,34 +55,36 @@ def profile():
     else:
         # If the user is not logged in, redirect to the login page
         return redirect(url_for('login'))
+    
+# save data from inital login aswell    
+def save_user_data(user_data):
+     with open('users.json', 'w') as file:
+        json.dump(user_data, file)
 
-    
-@app.route('/profile', methods=['POST'])
-def update_profile():
-    if 'username' in session:
-    
-        name = request.form['name']
-        password = request.form['changepassword']  # Hash the password before storing
-        age = request.form['age']
-    
-        update_user_profile(session['username'], name, password, age)
-      
-        return jsonify({'success': True, 'message': 'Profile updated successfully'})
-    else:
-     
-        return jsonify({'success': False, 'message': 'User not logged in'}), 401
 
-    
-def update_user_profile(form_data, username):
+def load_user_data():
     try:
-        print(f"Updating profile for {username}: {form_data}")
-        return True
-    except Exception as e:
-        print(e)
-        return False
+        with open('users.json', 'r') as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return {}
+
+def update_user_profile(name, password, age, username):
+    # Load the existing data
+    user_data = load_user_data()
+
+    user_data[username] = {
+        'name': name,
+        'password': password,  # Hash the password before storing it in a real application
+        'age': age
+    }
+    save_user_data(user_data)
+    return True
 
 def get_user_data(username):
-    return {'name': username, 'age': 25}  # Example data
-    
+    user_data = load_user_data()
+    return user_data.get(username, {'name': '', 'age': ''})
+
+
 if __name__ == '__main__':
     app.run(debug=True)
