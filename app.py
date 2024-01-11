@@ -84,6 +84,5 @@ def get_user_data(username):
     user_data = load_user_data()
     return user_data.get(username, {'name': '', 'age': ''})
 
-
 if __name__ == '__main__':
     app.run(debug=True)

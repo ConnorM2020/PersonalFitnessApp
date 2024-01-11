@@ -110,37 +110,59 @@
         <input type="submit" value="Update">
     </form>
     <script>
-        document.getElementById('profile-form').addEventListener('submit', function(event) {
+        document.getElementById('profile-form').addEventListener('submit', async function(event) { // Mark this function as async
             event.preventDefault(); // Prevent the default form submit action
-            // Get form data
-            var formData = new FormData(event.target);
-            fetch('/Profile', {
-                method: 'POST',
-                body: formData,
-                credentials: 'same-origin', // Include cookies in the request
-                headers: {
-                    'X-CSRFToken': formData.get('csrf_token') // Handle CSRF token
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    alert('Profile updated successfully'); // Or update the UI accordingly
-                } else {
-                    alert('Error updating profile: ' + data.message); // Display error message
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Error updating profile: ' + error.message);
-            });
+            // Password Hashing
+            // first get password from the form submission
+            const password = document.getElementById('changepassword').value;
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+    
+            // Hash the password using SHA-256
+            try {
+                const hashBuffer = await crypto.subtle.digest('SHA-256', data); // Now await can be used because the function is async
+                // Convert the hash to a hex string
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    
+                // Replace the password with the hash
+                document.getElementById('changepassword').value = hashHex;
+                
+                // Proceed with submitting the form data
+                var formData = new FormData(event.target);
+                formData.set('changepassword', hashHex); // Ensure the hashed password is sent instead of the plain one
+    
+                fetch('/Profile', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'same-origin', // Include cookies in the request
+                    headers: {
+                        'X-CSRFToken': formData.get('csrf_token') // Handle CSRF token
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        alert('Profile updated successfully'); // Or update the UI accordingly
+                    } else {
+                        alert('Error updating profile: ' + data.message); // Display error message
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error updating profile: ' + error.message);
+                });
+            } catch (error) {
+                console.error('Error hashing the password:', error);
+            }
         });
     </script>
+    
     <footer>
         <p>© 2023 Fitness Tracker. All rights reserved.</p>
     </footer>
