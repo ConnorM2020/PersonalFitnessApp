@@ -10,12 +10,16 @@
         <a href = "#createworkout">Create Workout</a>
         <a href="#workouts">Workouts</a>
         <a href="#nutrition">Nutrition</a>
+
+        <a href="/" class="home-icon">
+            <img src="static/images/new_home.png" alt="Home">
+        </a>
+
         <a href="#progress">Progress</a>
         <a href="/Profile">User Profile</a>
     </nav>
 
     <section id="profile" class="card">
-        <h2>UserProfile</h2>
         <p>Name: <span id="user-name-display">{{ username }}</span></p>
         
     </section>
@@ -138,6 +142,22 @@ function closeButton() {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fitness Tracker</title>
     <style>
+        /* home image stored here */
+       /* /* nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;      
+        }
+        .home-icon{
+            flex-grow: 1;
+            text-align: center; /* Center the home icon 
+        }
+        nav a img {
+            width: 30px;
+            height: 30px;
+        } */
+
+        /* HTML webpage onwards */
         form {
             max-width: 500px;
             margin: 2em auto;

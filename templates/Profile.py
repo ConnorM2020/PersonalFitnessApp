@@ -30,9 +30,6 @@ def profile():
             if password:  # Update the password only if it's provided
                 user.password_hash = generate_password_hash(password)
 
-            # Save changes to database
-            # db.session.commit()
-
             flash('Your profile was updated successfully!', 'success')
 
         # Redirect back to the profile page or a confirmation page as needed
