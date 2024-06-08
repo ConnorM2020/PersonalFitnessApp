@@ -6,6 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fitness Tracker - User Profile</title>
     <style>
+           .avatar {               /* Create an avatar image */
+            vertical-align: middle;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
         form {
             max-width: 500px;
             margin: 2em auto;
@@ -76,6 +83,8 @@
             border-radius: 5px;
             box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
         }
+     
+    
         nav {
             background: #333;
             color: white;
@@ -89,16 +98,25 @@
         }
     </style>
 </head>
-<body>
+<body>              
+                <!-- Seperate each header -->
     <header>
         <h1>User Profile - Fitness Tracker</h1>
     </header>
+  
+    
     <nav>
         <a href="#changename">Change Name</a>
         <a href="#changepassword">Change Password</a>
         <a href="#changeworkouts">Change Workouts</a>
         <a href="#progress">View Personal Progress</a>
     </nav>
+    <h2>Avatar Images</h2> 
+    <!-- Note the images created will be underneath the html paragraph-->
+    <img src="img_avatar.png" alt="Avatar" class="avatar">
+    <img src="img_avatar2.png" alt="Avatar" class="avatar">
+    <!-- Below Navagation tab-->
+
     <form id="profile-form" method="post">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name">
